@@ -1,5 +1,5 @@
 class Monster:
-    def __init__(health=100, name="Darkling", offbalance=False):
+    def __init__(self, health=100, name="Darkling", offbalance=False):
         self.health = health
         self.name = name
         self.offbalance = offbalance

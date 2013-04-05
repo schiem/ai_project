@@ -1,11 +1,22 @@
 class UI:
-    def __init__(self, player):
-        self.player = player
+    def welcome(self):
+        self.display("Welcome to the MUD!\n\nAt any time you may type 'quit' (without the quotes) to stop playing.")
 
-        self._setup_player()
-
-    def _setup_player(self):
-        self.player.name = input("Please input your character name:")
+    def player_name(self):
+        return self.user_input("What do you want your character's name to be?")
 
     def player_move(self):
-        return raw_input("How do you want to move?\nYour options are:\n\t1) Block\n\t2) Fight\n\nYour move: ")
+        from world import moves
+
+        msg = "How do you want to move?\nYour options are: "
+
+        for name in moves:
+            msg += "\n\t" + name.capitalize()
+
+        return self.user_input(msg + "\nYour move")
+
+    def display(self, msg):
+        print(msg)
+
+    def user_input(self, msg):
+        return input(msg + ": ")

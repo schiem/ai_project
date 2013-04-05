@@ -5,9 +5,8 @@ class UI:
     def player_name(self):
         return self.user_input("What do you want your character's name to be?")
 
-    def player_move(self):
-        from world import moves
-
+    def player_move(self, moves):
+        
         msg = "How do you want to move?\nYour options are: "
 
         for name in moves:
@@ -19,4 +18,4 @@ class UI:
         print(msg)
 
     def user_input(self, msg):
-        return input(msg + ": ")
+        return raw_input(msg + ": ")

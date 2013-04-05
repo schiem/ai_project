@@ -8,13 +8,13 @@ MOVE_BASH = 'bash'
 MOVE_DEFEND = 'defend'
 
 moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
-
-action_table = { MOVE_ATTACK + MOVE_ATTACK : [1, False, 1, False], 
-                 MOVE_ATTACK + MOVE_DEFEND : [0, True, 0, False], 
+monster_moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
+action_table = { MOVE_ATTACK + MOVE_ATTACK : [1, False, 1, False],
+                 MOVE_ATTACK + MOVE_DEFEND : [0, True, 0, False],
                  MOVE_ATTACK + MOVE_BASH : [0, False, 2, False],
                  MOVE_DEFEND + MOVE_DEFEND : [0, False, 0, False],
                  MOVE_DEFEND + MOVE_BASH : [1, True, 0, False],
-                 MOVE_BASH + MOVE_BASH : [2, True, 2, True]
+                 MOVE_BASH + MOVE_BASH : [2, False, 2, False]
 }
 
 def run():
@@ -28,20 +28,25 @@ def run():
 
     player_move = "Run"
     while player_move.lower() != ACTION_QUIT:
-        
+
         if player.offbalance:
             moves = [MOVE_BASH, MOVE_DEFEND]
         else:
             moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
+        if monster.offbalance:
+            monster_moves = [MOVE_BASH, MOVE_DEFEND]
+        else:
+            monster_moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
+
         player_move = ui.player_move(moves)
-        
+
         if player_move == ACTION_QUIT:
             break
         if player_move not in moves:
             ui.display("I don't understand your input, try again.")
             continue
-        
-        monster_move = monster.attack()
+
+        monster_move = monster.attack(monster_moves)
         if player_move + monster_move in action_table:
             outcome = action_table[player_move + monster_move]
             monster.take_damage(outcome[2])

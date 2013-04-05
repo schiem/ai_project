@@ -18,14 +18,19 @@ action_table = { MOVE_ATTACK + MOVE_ATTACK : [1, False, 1, False],
 }
 
 def run():
-    player = Monster(100, 'temp_name')
+    player = Monster(10, 'temp_name')
     monster = Monster()
     ui = UI()
 
     ui.welcome()
 
     player.name = ui.player_name()
+    a = 1
+    while a != 0:
+        monster = Monster()
+        a = game_loop(player, monster, ui)
 
+def game_loop(player, monster, ui):
     player_move = "Run"
     while player_move.lower() != ACTION_QUIT:
 
@@ -47,6 +52,7 @@ def run():
             continue
 
         monster_move = monster.attack(monster_moves)
+        ui.display(monster.name + " move: " + monster_move)
         if player_move + monster_move in action_table:
             outcome = action_table[player_move + monster_move]
             monster.take_damage(outcome[2])
@@ -61,4 +67,10 @@ def run():
             player.offbalance = outcome[3]
 
         ui.display_status(player, monster)
-        #check_if_dead()
+        if player.is_dead():
+            ui.display("Oh no! You seem to have perished!")
+            return 0
+        if monster.is_dead():
+            ui.display("You have slain the " + monster.name + ".")
+            return 1
+    return 0

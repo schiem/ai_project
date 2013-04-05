@@ -12,3 +12,5 @@ class Monster:
     def take_damage(self, damage):
         self.health -= damage
 
+    def is_dead(self):
+        return self.health <= 0

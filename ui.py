@@ -6,7 +6,7 @@ class UI:
         return self.user_input("What do you want your character's name to be?")
 
     def player_move(self, moves):
-        
+
         msg = "How do you want to move?\nYour options are: "
 
         for name in moves:
@@ -18,7 +18,7 @@ class UI:
         print(msg)
 
     def user_input(self, msg):
-        return input(msg + ": ")
+        return raw_input(msg + ": ")
 
     def display_status(self, player, monster):
         self.display("Your health is " + str(player.health))

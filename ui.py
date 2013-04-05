@@ -13,7 +13,7 @@ class UI:
         for name in moves:
             msg += "\n\t" + name.capitalize()
 
-        return self.user_input(msg + "\nYour move")
+        return self.user_input(msg + "\nYour move").lower()
 
     def display(self, msg):
         print(msg)

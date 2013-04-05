@@ -14,12 +14,6 @@ class UI:
 
         return self.user_input(msg + "\nYour move").lower()
 
-    def display(self, msg):
-        print(msg)
-
-    def user_input(self, msg):
-        return raw_input(msg + ": ")
-
     def display_status(self, player, monster):
         self.display("Your health is " + str(player.health))
         if player.offbalance:
@@ -27,3 +21,19 @@ class UI:
         self.display("Monster health is " + str(monster.health))
         if monster.offbalance:
             self.display("Monster is offblanace")
+
+    '''
+        The two functions below use try-eval-except to run
+        code compatible with python v2 first then v3.
+    '''
+    def display(self, msg):
+        try:
+            eval("print msg")
+        except SyntaxError:
+            print(msg)
+
+    def user_input(self, msg):
+        try:
+            return eval("raw_input(msg + ': ')")
+        except SyntaxError:
+            return input(msg + ": ")

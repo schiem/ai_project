@@ -60,10 +60,5 @@ def run():
             player.take_damage(outcome[2])
             player.offbalance = outcome[3]
 
-        print "Your health is " + str(player.health)
-        if player.offbalance:
-            print "You are offbalance"
-        print "Monster health is " + str(monster.health)
-        if monster.offbalance:
-            print "Monster is offblanace"
+        ui.display_status(player, monster)
         #check_if_dead()

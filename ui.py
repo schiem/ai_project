@@ -18,4 +18,12 @@ class UI:
         print(msg)
 
     def user_input(self, msg):
-        return raw_input(msg + ": ")
+        return input(msg + ": ")
+
+    def display_status(self, player, monster):
+        self.display("Your health is " + str(player.health))
+        if player.offbalance:
+           self.display("You are offbalance")
+        self.display("Monster health is " + str(monster.health))
+        if monster.offbalance:
+            self.display("Monster is offblanace")

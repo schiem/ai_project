@@ -1,3 +1,8 @@
+try:
+    eval("print('test')")
+except SyntaxError:
+    from compat import *
+
 class UI:
     def welcome(self):
         self.display("Welcome to the MUD!\n\nAt any time you may type 'quit' (without the quotes) to stop playing.")
@@ -22,18 +27,8 @@ class UI:
         if monster.offbalance:
             self.display("Monster is offblanace")
 
-    '''
-        The two functions below use try-eval-except to run
-        code compatible with python v2 first then v3.
-    '''
     def display(self, msg):
-        try:
-            eval("print msg")
-        except SyntaxError:
-            print(msg)
+        print(msg)
 
     def user_input(self, msg):
-        try:
-            return eval("raw_input(msg + ': ')")
-        except SyntaxError:
-            return input(msg + ": ")
+        return input(msg + ": ")

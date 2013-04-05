@@ -17,60 +17,61 @@ action_table = { MOVE_ATTACK + MOVE_ATTACK : [1, False, 1, False],
                  MOVE_BASH + MOVE_BASH : [2, False, 2, False]
 }
 
-def run():
-    player = Monster(10, 'temp_name')
-    monster = Monster()
-    ui = UI()
+class World:
+    def run(self):
+        self.player = Monster(10, 'temp_name')
+        self.monster = Monster()
+        self.ui = UI()
 
-    ui.welcome()
+        self.ui.welcome()
 
-    player.name = ui.player_name()
-    a = 1
-    while a != 0:
-        monster = Monster()
-        a = game_loop(player, monster, ui)
+        self.player.name = self.ui.player_name()
+        a = 1
+        while a != 0:
+            self.monster = Monster()
+            a = self.run_loop()
 
-def game_loop(player, monster, ui):
-    player_move = "Run"
-    while player_move.lower() != ACTION_QUIT:
+    def run_loop(self):
+        player_move = "Run"
+        while player_move.lower() != ACTION_QUIT:
 
-        if player.offbalance:
-            moves = [MOVE_BASH, MOVE_DEFEND]
-        else:
-            moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
-        if monster.offbalance:
-            monster_moves = [MOVE_BASH, MOVE_DEFEND]
-        else:
-            monster_moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
+            if self.player.offbalance:
+                moves = [MOVE_BASH, MOVE_DEFEND]
+            else:
+                moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
+            if self.monster.offbalance:
+                monster_moves = [MOVE_BASH, MOVE_DEFEND]
+            else:
+                monster_moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
 
-        player_move = ui.player_move(moves)
+            player_move = self.ui.player_move(moves)
 
-        if player_move == ACTION_QUIT:
-            break
-        if player_move not in moves:
-            ui.display("I don't understand your input, try again.")
-            continue
+            if player_move == ACTION_QUIT:
+                break
+            if player_move not in moves:
+                self.ui.display("I don't understand your input, try again.")
+                continue
 
-        monster_move = monster.attack(monster_moves)
-        ui.display(monster.name + " move: " + monster_move)
-        if player_move + monster_move in action_table:
-            outcome = action_table[player_move + monster_move]
-            monster.take_damage(outcome[2])
-            monster.offbalance = outcome[3]
-            player.take_damage(outcome[0])
-            player.offbalance = outcome[1]
-        else:
-            outcome = action_table[monster_move + player_move]
-            monster.take_damage(outcome[0])
-            monster.offbalance = outcome[1]
-            player.take_damage(outcome[2])
-            player.offbalance = outcome[3]
+            monster_move = self.monster.attack(monster_moves)
+            self.ui.display(self.monster.name + " move: " + monster_move)
+            if player_move + monster_move in action_table:
+                outcome = action_table[player_move + monster_move]
+                self.monster.take_damage(outcome[2])
+                self.monster.offbalance = outcome[3]
+                self.player.take_damage(outcome[0])
+                self.player.offbalance = outcome[1]
+            else:
+                outcome = action_table[monster_move + player_move]
+                self.monster.take_damage(outcome[0])
+                self.monster.offbalance = outcome[1]
+                self.player.take_damage(outcome[2])
+                self.player.offbalance = outcome[3]
 
-        ui.display_status(player, monster)
-        if player.is_dead():
-            ui.display("Oh no! You seem to have perished!")
-            return 0
-        if monster.is_dead():
-            ui.display("You have slain the " + monster.name + ".")
-            return 1
-    return 0
+            self.ui.display_status(self.player, self.monster)
+            if self.player.is_dead():
+                self.ui.display("Oh no! You seem to have perished!")
+                return 0
+            if self.monster.is_dead():
+                self.ui.display("You have slain the " + self.monster.name + ".")
+                return 1
+        return 0

@@ -4,9 +4,10 @@ from ui import UI
 ACTION_QUIT = 'quit'
 
 MOVE_ATTACK = 'attack'
-MOVE_BLOCK = 'block'
+MOVE_BASH = 'bash'
+MOVE_DEFEND = 'defend'
 
-moves = [MOVE_ATTACK, MOVE_BLOCK]
+moves = [MOVE_ATTACK, MOVE_BASH, MOVE_DEFEND]
 
 def run():
     player = Monster(100, 'temp_name')

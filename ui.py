@@ -28,7 +28,8 @@ class UI:
             self.display("Monster is offblanace")
 
     def display(self, msg):
-        print(msg)
+        from sys import stdout
+        stdout.write(msg + "\n")
 
     def user_input(self, msg):
         return input(msg + ": ")

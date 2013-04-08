@@ -68,10 +68,13 @@ class World:
                 self.player.offbalance = outcome[3]
 
             self.ui.display_status(self.player, self.monster)
-            if self.player.is_dead():
+            if self.player.is_dead() and self.monster.is_dead():
+                self.ui.display("You have slain the foul " + self.monster.name + ", but it appears that, in its dying throes, the " + self.monster.name + "has also slain you.")
+                return 0
+            elif self.player.is_dead():
                 self.ui.display("Oh no! You seem to have perished!")
                 return 0
-            if self.monster.is_dead():
+            elif self.monster.is_dead():
                 self.ui.display("You have slain the " + self.monster.name + ".")
                 return 1
         return 0

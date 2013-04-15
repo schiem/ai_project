@@ -27,7 +27,6 @@ class World:
 
         self.ui.welcome()
 
-        self.player.name = self.ui.player_name()
         a = 1
         while a != 0:
             self.monster = Monster()

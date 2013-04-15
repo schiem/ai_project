@@ -14,10 +14,11 @@ class Monster:
     def attack(self, moves, player):
         #calculate and return the best move
         move = ai.best_move(player.history, self.history)
-        
         if move is None:
             return random.choice(moves)
         move = ai.convert_to_opposing(move) 
+        if (move == "attack" and self.offbalance is True):
+            return random.choice(moves)
         return move
 
     def take_damage(self, damage):

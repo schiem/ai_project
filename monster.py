@@ -1,5 +1,6 @@
 import random
 import ai
+import pickle
 
 class Monster:
     def __init__(self, health=50, name="Darkling", offbalance=False):
@@ -7,6 +8,8 @@ class Monster:
         self.name = name
         self.offbalance = offbalance
         self.history = []
+
+        self._load_history()
 
     def attack(self, moves, player):
         #calculate and return the best move
@@ -22,3 +25,16 @@ class Monster:
 
     def is_dead(self):
         return self.health <= 0
+
+    def save_history(self):
+        f = open(self.name + '.moves', 'w+')
+        pickle.dump(self.history, f)
+        f.close()
+
+    def _load_history(self):
+        try:
+            f = open(self.name + '.moves', 'r+')
+            self.history = pickle.load(f)
+            f.close()
+        except Exception:
+            pass

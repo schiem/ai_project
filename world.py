@@ -19,7 +19,7 @@ action_table = { MOVE_ATTACK + MOVE_ATTACK : [1, False, 1, False],
 
 class World:
     def run(self):
-        self.player = Monster(name='temp_name')
+        self.player = Monster(name='Player')
         self.monster = Monster()
         self.ui = UI()
 
@@ -29,6 +29,10 @@ class World:
         while a != 0:
             self.monster = Monster()
             a = self.run_loop()
+
+            self.monster.save_history()
+            self.player.save_history()
+
 
     def run_loop(self):
         player_move = "Run"

@@ -19,7 +19,7 @@ action_table = { MOVE_ATTACK + MOVE_ATTACK : [1, False, 1, False],
 
 class World:
     def run(self):
-        self.player = Monster(10, 'temp_name')
+        self.player = Monster(name='temp_name')
         self.monster = Monster()
         self.ui = UI()
 
@@ -52,7 +52,8 @@ class World:
                 self.ui.display("I don't understand your input, try again.")
                 continue
 
-            monster_move = self.monster.attack(monster_moves)
+            monster_move = self.monster.attack(monster_moves, self.player)
+            
             self.ui.display(self.monster.name + " move: " + monster_move)
             if player_move + monster_move in action_table:
                 outcome = action_table[player_move + monster_move]
@@ -66,6 +67,10 @@ class World:
                 self.monster.offbalance = outcome[1]
                 self.player.take_damage(outcome[2])
                 self.player.offbalance = outcome[3]
+
+            # record the moves just made
+            self.player.history.append(player_move)
+            self.monster.history.append(monster_move)
 
             self.ui.display_status(self.player, self.monster)
             if self.player.is_dead() and self.monster.is_dead():

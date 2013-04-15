@@ -1,17 +1,42 @@
-def best_move(player_history=None, monster_history=None):
-   if len(player_history) > 4:
-       pattern_list = isin(player_history[:-4], player_history[-4:])
-       if len(pattern_list) == 0:
-           pattern_list = isin(player_history[:-3], player_history[-3:])
-       if len(pattern_list) == 0:
-           return None
-       moves = compare_monster(pattern_list, monster_history)
-       return most_common(moves)
-   else:
-       return None
+def best_move(player_history, monster_history):
+   #if len(player_history) > 3:
+   player_pattern = player_history[-4:]
+   pattern_list = instances_of(player_pattern, player_history[:-4])
+
+   if len(pattern_list) == 0:
+       player_pattern = player_history[-3:]
+       pattern_list = instances_of(player_pattern, player_history[:-3])
+   
+   print pattern_list
+   if len(pattern_list) > 0:
+       moves = compare_monster(pattern_list, player_pattern, monster_history)
+
+       if len(moves) > 0:
+           return most_common(moves)
+       else:
+           moves = compare_monster(pattern_list, player_pattern, player_history)
+           return most_common(moves)
+
+   return None
 
 
 def most_common(lst):
     return max(set(lst), key=lst.count)
 
-    
+def instances_of(a, b):
+    indices = []
+    i = 0
+    while i < len(b):
+        if a == b[i:i+len(a)]:
+            indices.append(i)
+            i += len(a)
+        else:
+            i += 1
+    return indices
+
+def compare_monster(pattern_indices, player_pattern, monster_history):
+    matches = []
+    for i in pattern_indices:
+        if player_pattern == monster_history[i:i + len(player_pattern)] and len(monster_history) >= len(player_pattern) + i - 1: 
+            matches.append(monster_history[i + len(player_pattern)])
+    return matches

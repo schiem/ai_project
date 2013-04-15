@@ -17,6 +17,8 @@ action_table = { MOVE_ATTACK + MOVE_ATTACK : [1, False, 1, False],
                  MOVE_BASH + MOVE_BASH : [2, False, 2, False]
 }
 
+opposing_moves = {"attack" : "defend", "bash" : "attack", "defend" : "bash"}
+
 class World:
     def run(self):
         self.player = Monster(name='temp_name')

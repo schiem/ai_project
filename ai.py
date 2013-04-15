@@ -8,7 +8,6 @@ def best_move(player_history, monster_history):
        player_pattern = player_history[-3:]
        pattern_list = instances_of(player_pattern, player_history[:-3])
    
-   print pattern_list
    if len(pattern_list) > 0:
        moves = compare_monster(pattern_list, player_pattern, monster_history)
 

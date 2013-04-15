@@ -8,7 +8,6 @@ class UI:
         self.display("Welcome to the MUD!\n\nAt any time you may type 'quit' (without the quotes) to stop playing.")
 
     def player_move(self, moves):
-
         msg = "How do you want to move?\nYour options are: "
 
         for name in moves:

@@ -25,6 +25,7 @@ class World:
         self.monster = Monster()
         self.ui = UI()
 
+        print chr(27) + "[2J"
         self.ui.welcome()
 
         a = 1
@@ -77,6 +78,7 @@ class World:
             self.player.history.append(player_move)
             self.monster.history.append(monster_move)
 
+            print chr(27) + "[2J"
             self.ui.display_status(self.player, self.monster)
             if self.player.is_dead() and self.monster.is_dead():
                 self.ui.display("You have slain the foul " + self.monster.name + ", but it appears that, in its dying throes, the " + self.monster.name + "has also slain you.")

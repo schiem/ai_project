@@ -17,7 +17,7 @@ class Monster:
         
         if move is None:
             return random.choice(moves)
-
+        move = ai.convert_to_opposing(move) 
         return move
 
     def take_damage(self, damage):

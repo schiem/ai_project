@@ -1,5 +1,6 @@
+import world
+
 def best_move(player_history, monster_history):
-   #if len(player_history) > 3:
    player_pattern = player_history[-4:]
    pattern_list = instances_of(player_pattern, player_history[:-4])
 
@@ -40,3 +41,6 @@ def compare_monster(pattern_indices, player_pattern, monster_history):
         if player_pattern == monster_history[i:i + len(player_pattern)] and len(monster_history) >= len(player_pattern) + i - 1: 
             matches.append(monster_history[i + len(player_pattern)])
     return matches
+
+def convert_to_opposing(move):
+   return world.opposing_moves[move] 

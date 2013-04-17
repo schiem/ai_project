@@ -1,6 +1,6 @@
 from monster import Monster
 from ui import UI
-
+import random
 ACTION_QUIT = 'quit'
 
 MOVE_ATTACK = 'attack'
@@ -18,21 +18,25 @@ action_table = { MOVE_ATTACK + MOVE_ATTACK : [1, False, 1, False],
 }
 
 opposing_moves = {"attack" : "defend", "bash" : "attack", "defend" : "bash"}
+monsters = {"Darkling" : [20, "A foul creature spawned of darkness.  It is adorned with razor sharp teeth and long claws."], "Orc" : [50, "A large, greenbeast, this humanoid figure knows nothing but violence."], "Lich" : [100, "A powerful undead creature, created from an ancient ritual.  Best be wary."]}
+
 
 class World:
     def run(self):
         self.player = Monster(name='Player')
-        self.monster = Monster()
-        self.ui = UI()
 
+        monster = random.choice(list(monsters.viewkeys()))
+        self.monster = Monster(monsters[monster][0], monster, description=monsters[monster][1])
+        self.ui = UI()
         print chr(27) + "[2J"
         self.ui.welcome()
-
+        
         a = 1
         while a != 0:
-            self.monster = Monster()
             a = self.run_loop()
-
+            
+            monster = random.choice(list(monsters.viewkeys()))
+            self.monster = Monster(monsters[monster][0], monster, description=monsters[monster][1])
             self.monster.save_history()
             self.player.save_history()
 

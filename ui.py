@@ -19,9 +19,9 @@ class UI:
         self.display("Your health is " + str(player.health))
         if player.offbalance:
            self.display("You are offbalance")
-        self.display("Monster health is " + str(monster.health))
+        self.display(monster.name + " health is " + str(monster.health))
         if monster.offbalance:
-            self.display("Monster is offblanace")
+            self.display(monster.name + " is offblanace")
 
     def display(self, msg):
         from sys import stdout

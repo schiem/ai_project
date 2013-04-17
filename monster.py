@@ -7,6 +7,7 @@ class Monster:
         self.health = health
         self.name = name
         self.offbalance = offbalance
+        self.move = None
         self.history = []
 
         self._load_history()

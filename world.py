@@ -23,15 +23,17 @@ class World:
     def run(self):
         self.player = Monster(name='Player')
         self.monster = Monster()
-        self.ui = UI()
+        self.ui = UI(self.player)
 
-        print chr(27) + "[2J"
         self.ui.welcome()
 
         a = 1
         while a != 0:
             self.monster = Monster()
+            self.ui.monster = self.monster
+
             a = self.run_loop()
+            self.ui.update_display()
 
             self.monster.save_history()
             self.player.save_history()
@@ -55,12 +57,15 @@ class World:
             if player_move == ACTION_QUIT:
                 break
             if player_move not in moves:
-                self.ui.display("I don't understand your input, try again.")
+                self.ui.msg = "I don't understand your input, try again."
+                self.ui.update_display()
                 continue
 
             monster_move = self.monster.attack(monster_moves, self.player)
             
-            self.ui.display(self.monster.name + " move: " + monster_move)
+            self.ui.monster.move = monster_move
+            self.ui.player.move = player_move
+
             if player_move + monster_move in action_table:
                 outcome = action_table[player_move + monster_move]
                 self.monster.take_damage(outcome[2])
@@ -74,19 +79,19 @@ class World:
                 self.player.take_damage(outcome[2])
                 self.player.offbalance = outcome[3]
 
-            # record the moves just made
+            # record the moves just made for the AI
             self.player.history.append(player_move)
             self.monster.history.append(monster_move)
 
-            print chr(27) + "[2J"
-            self.ui.display_status(self.player, self.monster)
+            self.ui.update_display()
+
             if self.player.is_dead() and self.monster.is_dead():
-                self.ui.display("You have slain the foul " + self.monster.name + ", but it appears that, in its dying throes, the " + self.monster.name + "has also slain you.")
+                self.ui.msg = "You have slain the foul " + self.monster.name + ", but it appears that, in its dying throes, the " + self.monster.name + "has also slain you."
                 return 0
             elif self.player.is_dead():
-                self.ui.display("Oh no! You seem to have perished!")
+                self.ui.msg = "Oh no! You seem to have perished!"
                 return 0
             elif self.monster.is_dead():
-                self.ui.display("You have slain the " + self.monster.name + ".")
+                self.ui.msg = "You have slain the " + self.monster.name + "."
                 return 1
         return 0

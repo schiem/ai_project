@@ -4,6 +4,11 @@ except SyntaxError:
     from compat import *
 
 class UI:
+    def __init__(self, player):
+        self.player = player
+        self.monster = None
+        self.msg = ""
+
     def welcome(self):
         self.display("Welcome to the MUD!\n\nAt any time you may type 'quit' (without the quotes) to stop playing.")
 
@@ -16,12 +21,13 @@ class UI:
         return self.user_input(msg + "\nYour move").lower()
 
     def display_status(self, player, monster):
-        self.display("Your health is " + str(player.health))
+        msg = "Health: " + str(player.health) + " "
         if player.offbalance:
-           self.display("You are offbalance")
-        self.display(monster.name + " health is " + str(monster.health))
+          msg += "(You are offbalance) "
+        msg += monster.name + " health: " + str(monster.health) + " "
         if monster.offbalance:
-            self.display(monster.name + " is offblanace")
+            msg += "(Monster is offblanace)"
+        self.display(msg)
 
     def display(self, msg):
         from sys import stdout
@@ -29,3 +35,9 @@ class UI:
 
     def user_input(self, msg):
         return input(msg + ": ")
+
+    def update_display(self):
+        print chr(27) + "[2J"
+        self.display_status(self.player, self.monster)
+        self.display("You " + self.player.move + "ed")
+        self.display(self.monster.name + " " + self.monster.move + "ed")

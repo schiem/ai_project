@@ -38,7 +38,13 @@ class UI:
 
     def update_display(self):
         print chr(27) + "[2J"
+        if self.msg:
+            self.display("(%s)" % (self.msg))
+            self.msg = None
+
         self.display("There were %i pattern matches found." % (self.monster.matches))
         self.display_status(self.player, self.monster)
-        self.display("You " + self.player.move + "ed")
-        self.display(self.monster.name + " " + self.monster.move + "ed")
+
+        if self.player.move:
+            self.display("You " + self.player.move + "ed")
+            self.display(self.monster.name + " " + self.monster.move + "ed")

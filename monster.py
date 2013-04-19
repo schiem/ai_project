@@ -20,7 +20,7 @@ class Monster:
         move = ai.convert_to_opposing(move) 
         if (move == "attack" and self.offbalance is True):
             return random.choice(moves)
-        return moves
+        return move
 
     def take_damage(self, damage):
         self.health -= damage

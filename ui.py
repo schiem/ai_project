@@ -23,7 +23,7 @@ class UI:
     def display_status(self, player, monster):
         msg = "Health: " + str(player.health) + " "
         if player.offbalance:
-           msg += "(You are offbalance) "
+          msg += "(You are offbalance) "
         msg += monster.name + " health: " + str(monster.health) + " "
         if monster.offbalance:
             msg += "(Monster is offblanace)"

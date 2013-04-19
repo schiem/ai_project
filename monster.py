@@ -3,7 +3,7 @@ import ai
 import pickle
 
 class Monster:
-    def __init__(self, health=50, name="Darkling", offbalance=False):
+    def __init__(self, health=50, name="Darkling", offbalance=False, description=""):
         self.health = health
         self.name = name
         self.offbalance = offbalance
@@ -29,7 +29,10 @@ class Monster:
         return self.health <= 0
 
     def save_history(self):
-        f = open(self.name + '.moves', 'w+')
+        if self.name.lower() != 'player':
+            f = open('monster.moves', 'w+')
+        else:
+            f = open('player.moves', 'w+')
         pickle.dump(self.history, f)
         f.close()
 

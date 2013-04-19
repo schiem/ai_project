@@ -27,27 +27,22 @@ class World:
 
         monster = random.choice(list(monsters.viewkeys()))
         self.monster = Monster(monsters[monster][0], monster, description=monsters[monster][1])
-        self.ui = UI()
-        print chr(27) + "[2J"
-        self.monster = Monster()
         self.ui = UI(self.player)
+        self.ui.monster = self.monster
 
         self.ui.welcome()
         
         a = 1
         while a != 0:
             a = self.run_loop()
-            
-            monster = random.choice(list(monsters.viewkeys()))
-            self.monster = Monster(monsters[monster][0], monster, description=monsters[monster][1])
-            self.ui.monster = self.monster
-
-            a = self.run_loop()
             self.ui.update_display()
 
             self.monster.save_history()
             self.player.save_history()
-
+            
+            monster = random.choice(list(monsters.viewkeys()))
+            self.monster = Monster(monsters[monster][0], monster, description=monsters[monster][1])
+            self.ui.monster = self.monster
 
     def run_loop(self):
         player_move = "Run"

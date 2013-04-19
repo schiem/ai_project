@@ -9,18 +9,18 @@ class Monster:
         self.offbalance = offbalance
         self.move = None
         self.history = []
-
+        self.matches = 0
         self._load_history()
 
     def attack(self, moves, player):
         #calculate and return the best move
-        move = ai.best_move(player.history, self.history)
+        move, self.matches = ai.best_move(player.history, self.history)
         if move is None:
             return random.choice(moves)
         move = ai.convert_to_opposing(move) 
         if (move == "attack" and self.offbalance is True):
             return random.choice(moves)
-        return move
+        return moves
 
     def take_damage(self, damage):
         self.health -= damage

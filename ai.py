@@ -10,14 +10,15 @@ def best_move(player_history, monster_history):
    
    if len(pattern_list) > 0:
        moves = compare_monster(pattern_list, player_pattern, monster_history)
-
        if len(moves) > 0:
-           return most_common(moves)
+           matches = len(moves)
+           return most_common(moves), matches
        else:
            moves = compare_monster(pattern_list, player_pattern, player_history)
-           return most_common(moves)
+           matches = len(moves)
+           return most_common(moves), matches
 
-   return None
+   return None, 0
 
 
 def most_common(lst):

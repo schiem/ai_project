@@ -1,6 +1,7 @@
 from monster import Monster
 from ui import UI
-import random
+import random, pickle
+
 ACTION_QUIT = 'quit'
 
 MOVE_ATTACK = 'attack'
@@ -24,6 +25,7 @@ monsters = {"Darkling" : [20, "A foul creature spawned of darkness.  It is adorn
 class World:
     def run(self):
         self.player = Monster(name='Player')
+        self._load_history(self.player)
 
         monster = random.choice(list(monsters.viewkeys()))
         self.monster = Monster(monsters[monster][0], monster, description=monsters[monster][1])
@@ -34,11 +36,15 @@ class World:
         
         a = 1
         while a != 0:
-            a = self.run_loop()
-            self.ui.update_display()
+            self._load_history(self.monster)
 
-            self.monster.save_history()
-            self.player.save_history()
+            a = self.run_loop()
+
+            if a != 0:
+                self.ui.update_display()
+
+            self._save_history(self.player)
+            self._save_history(self.monster)
             
             monster = random.choice(list(monsters.viewkeys()))
             self.monster = Monster(monsters[monster][0], monster, description=monsters[monster][1])
@@ -100,3 +106,29 @@ class World:
                 self.ui.msg = "You have slain the " + self.monster.name + "."
                 return 1
         return 0
+
+    def _load_history(self, monster):
+        name = 'player'
+        if monster.name.lower() != 'player':
+            name = 'monster'
+
+        try:
+            f = open(name + '.moves', 'r+')
+            monster.history = pickle.load(f)
+            f.close()
+        except Exception:
+            pass
+
+    def _save_history(self, monster):
+        name = 'player'
+        if monster.name.lower() != 'player':
+            name = 'monster'
+
+        try:
+            f = open(name + '.moves', 'w+')
+            print monster.name
+            print len(monster.history)
+            pickle.dump(monster.history, f)
+            f.close()
+        except Exception:
+            pass

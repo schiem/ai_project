@@ -17,7 +17,7 @@ class Monster:
             return random.choice(moves)
         move = ai.convert_to_opposing(move) 
         if (move == "attack" and self.offbalance is True):
-            return random.choice(moves)
+            return "bash"
         return move
 
     def take_damage(self, damage):
